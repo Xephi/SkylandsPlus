@@ -4,17 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.server.v1_8_R1.Block;
-import net.minecraft.server.v1_8_R1.Blocks;
-import net.minecraft.server.v1_8_R1.NoiseGeneratorOctaves;
-import net.minecraft.server.v1_8_R1.WorldGenCanyon;
-import net.minecraft.server.v1_8_R1.WorldGenCaves;
-import net.minecraft.server.v1_8_R1.WorldGenCavesHell;
-import net.minecraft.server.v1_8_R1.WorldGenMineshaft;
-import net.minecraft.server.v1_8_R1.WorldGenNether;
-import net.minecraft.server.v1_8_R1.WorldGenStronghold;
-import net.minecraft.server.v1_8_R1.WorldGenVillage;
-import net.minecraft.server.v1_8_R1.WorldGenLargeFeature;
+import net.minecraft.server.v1_8_R1.*;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -281,7 +271,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			break;
 			
 			case THE_END:
-				blockType = Blocks.WHITESTONE;
+				blockType = Blocks.END_STONE;
 			break;
 			
 			default:
@@ -432,7 +422,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 					b1 = Blocks.NETHERRACK;
 					b2 = Blocks.NETHERRACK;
 				}else if (biome == Biome.MUSHROOM_ISLAND || biome == Biome.MUSHROOM_SHORE){
-					b1 = Blocks.MYCEL;
+					b1 = Blocks.MYCELIUM;
 					b2 = Blocks.DIRT;
 				}else{
 					b1 = Blocks.GRASS;
@@ -495,34 +485,48 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		}
 		
 		net.minecraft.server.v1_8_R1.World mcWorld = ((CraftWorld) world).getHandle();
-		
+
+		IChunkProvider cp = mcWorld.N();
+
 		Block[] blocks = new Block[65536];
 		
 		this.random.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
 		
 		this.shapeLand(world, chunkX, chunkZ, blocks);
-		
+
+		ChunkSnapshot cs = new ChunkSnapshot();
+
 		if (environment == Environment.NORMAL){
-			this.caveGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+			//this.caveGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
+
+			this.caveGen.a(cp, mcWorld, chunkX, chunkZ,cs);
 			
 			if (canyon == true){
-				this.canyonGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.canyonGen.a(cp, mcWorld, chunkX, chunkZ, cs);
+				//this.canyonGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (stronghold == true){
-				this.strongholdGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.strongholdGen.a(cp, mcWorld, chunkX, chunkZ, cs);
+				//this.strongholdGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (mineshaft == true){
-				this.mineshaftGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.mineshaftGen.a(cp, mcWorld, chunkX, chunkZ, cs);
+				//this.mineshaftGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (village == true){
-				this.villageGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.villageGen.a(cp, mcWorld, chunkX, chunkZ, cs);
+				//this.villageGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (largefeature == true){
-				this.largefeatureGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.largefeatureGen.a(cp, mcWorld, chunkX, chunkZ, cs);
+				//this.largefeatureGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
 			}
 		}else if (environment == Environment.NETHER){
-			this.caveGenNether.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
-			this.genNetherFort.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+
+			this.caveGenNether.a(cp, mcWorld, chunkX, chunkZ, cs);
+			//this.caveGenNether.a(cp, mcWorld, chunkX, chunkZ, blocks);
+			this.genNetherFort.a(cp, mcWorld, chunkX, chunkZ, cs);
+			//this.genNetherFort.a(cp, mcWorld, chunkX, chunkZ, blocks);
 		}
 		
 		this.decorateLand(chunkX, chunkZ, blocks, biomes);
