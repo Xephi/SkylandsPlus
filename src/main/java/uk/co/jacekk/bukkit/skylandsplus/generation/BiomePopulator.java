@@ -20,13 +20,15 @@ public class BiomePopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk chunk){
 		Biome biome = world.getBiome(chunk.getX() * 16, chunk.getZ() * 16);
 		//TODO: Some biomes are not being decorated.
-		
+
+		BiomeFixRandom biomefixrandom = new BiomeFixRandom(random);
+
 		try{
 
-			ReflectionUtils.getFieldValue(BiomeBase.class, biome.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), random, new BlockPosition( chunk.getX() * 16,0, chunk.getZ() * 16));
+			ReflectionUtils.getFieldValue(BiomeBase.class, biome.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), biomefixrandom, new BlockPosition( chunk.getX() * 16,0, chunk.getZ() * 16));
 		}catch (NoSuchFieldException e){
 			try{
-				ReflectionUtils.getFieldValue(BiomeBase.class, Biome.FOREST.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), random, new BlockPosition( chunk.getX() * 16,0, chunk.getZ() * 16));
+				ReflectionUtils.getFieldValue(BiomeBase.class, Biome.FOREST.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), biomefixrandom, new BlockPosition( chunk.getX() * 16,0, chunk.getZ() * 16));
 			}catch (IllegalArgumentException le){
 				System.err.println(le.getMessage());
 			}catch (RuntimeException le){
