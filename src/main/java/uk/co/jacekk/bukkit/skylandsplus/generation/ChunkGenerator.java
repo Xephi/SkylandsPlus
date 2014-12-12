@@ -254,7 +254,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		return adouble;
 	}
 	
-	private void shapeLand(World world, int chunkX, int chunkZ, Block[] blocks){
+	private void shapeLand(World world, int chunkX, int chunkZ, ChunkSnapshot blocks){
 		byte b0 = 2;
 		int k = b0 + 1;
 		
@@ -309,16 +309,18 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 						double d13 = (d4 - d2) * d9;
 						
 						for (int j2 = 0; j2 < 8; ++j2){
-							int i3 = j2 + j1 * 8 << 11 | 0 + k1 * 8 << 7 | l1 * 4 + i2;
+							int i3 = j2 + j1 * 8 << 12 | 0 + k1 * 8 << 8 | l1 * 4 + i2;
 							
-							int j3 = 1 << 7;
+							int j3 = 1 << 8;
 							double d14 = 0.125D;
 							double d15 = d10;
 							double d16 = (d11 - d10) * d14;
 							
 							for (int k3 = 0; k3 < 8; ++k3){
 								if (d15 > 0.0D){
-									blocks[i3] = blockType;
+									blocks.a(i3, blockType.getBlockData());
+									//OR
+									//blocks.a(j2 + j1 * 8, l1 * 4 + i2, k1 * 8 + k3, blockType.getBlockData());
 								}
 								
 								i3 += j3;
@@ -341,7 +343,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		}
 	}
 	
-	private void decorateLand(int chunkX, int chunkZ, Block[] blocks, BiomeGrid biomes){
+	private void decorateLand(int chunkX, int chunkZ, ChunkSnapshot blocks, BiomeGrid biomes){
 		double d0 = 0.03125D;
 		
 		this.t = this.o.a(this.t, chunkX * 16, chunkZ * 16, 0, 16, 16, 1, d0 * 2.0D, d0 * 2.0D, d0 * 2.0D);
@@ -430,20 +432,20 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 				}
 				
 				for (int y = 127; y >= 0; --y){
-					int l1 = x * 16 + z;
-					int i2 = l1 * 128 + y;
+					//int l1 = x * 16 + z;
+					//int i2 = l1 * 128 + y;
 					
-					Block b3 = blocks[i2];
+					Block b3 = blocks.a(x, y, z).getBlock();
 					
 					if (b3 == Blocks.AIR){
 						j1 = -1;
 					}else if (b3 == Blocks.STONE){
 						if (j1 == -1){
 							j1 = i1;
-							blocks[i2] = b1;
+							blocks.a(x, y, z, b1.getBlockData());
 						}else if (j1 > 0){
 							--j1;
-							blocks[i2] = b2;
+							blocks.a(x, y, z, b2.getBlockData());
 							
 							if (j1 == 0 && b2 == Blocks.SAND){
 								j1 = this.random.nextInt(4);
@@ -488,19 +490,17 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 
 		IChunkProvider cp = mcWorld.N();
 
-		Block[] blocks = new Block[65536];
-		
+		ChunkSnapshot cs = new ChunkSnapshot();
+		//Block[] blocks = new Block[65536];
+
 		this.random.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
 		
-		this.shapeLand(world, chunkX, chunkZ, blocks);
-
-		ChunkSnapshot cs = new ChunkSnapshot();
+		this.shapeLand(world, chunkX, chunkZ, cs);
+		//this.shapeLand(world, chunkX, chunkZ, blocks);
 
 		if (environment == Environment.NORMAL){
-			//this.caveGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
-
-			this.caveGen.a(cp, mcWorld, chunkX, chunkZ,cs);
-			
+			this.caveGen.a(cp, mcWorld, chunkX, chunkZ, cs);
+			//this.caveGen.a(cp, mcWorld, chunkX, chunkZ, blocks);			
 			if (canyon == true){
 				this.canyonGen.a(cp, mcWorld, chunkX, chunkZ, cs);
 				//this.canyonGen.a(cp, mcWorld, chunkX, chunkZ, blocks);
@@ -529,7 +529,8 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			//this.genNetherFort.a(cp, mcWorld, chunkX, chunkZ, blocks);
 		}
 		
-		this.decorateLand(chunkX, chunkZ, blocks, biomes);
+		this.decorateLand(chunkX, chunkZ, cs, biomes);
+		//this.decorateLand(chunkX, chunkZ, blocks, biomes);
 		
 		int cut_top = 0;
 		int cut_bottom = 0;
@@ -546,7 +547,8 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		for (int x = 0; x < 16; ++x){
 			for (int y = 0 + cut_bottom; y < 128 - cut_top; ++y){
 				for (int z = 0; z < 16; ++z){
-					chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.b(blocks[(x * 16 + z) * 128 + y])).byteValue();
+					chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.b(cs.a(x , y, z).getBlock())).byteValue();
+					//chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.b(blocks[(x * 16 + z) * 128 + y])).byteValue();
 					
 					if (bedrock == true && y == 0){
 						chunk[y - cut_bottom >> 4][((y - cut_bottom & 0xF) << 8) | (z << 4) | x] = (byte) Material.BEDROCK.getId();
