@@ -1,19 +1,14 @@
 package uk.co.jacekk.bukkit.skylandsplus.generation;
 
-import java.util.Random;
-
-import net.minecraft.server.v1_8_R2.BiomeBase;
-import net.minecraft.server.v1_8_R2.WorldServer;
-
-import net.minecraft.server.v1_8_R2.BiomeDecorator;
-import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R3.BiomeBase;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.WorldServer;
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
 
-import uk.co.jacekk.bukkit.baseplugin.util.ReflectionUtils;
+import java.util.Random;
 
 public class BiomePopulator extends BlockPopulator {
 	

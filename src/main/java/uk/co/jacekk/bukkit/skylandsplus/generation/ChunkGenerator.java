@@ -1,17 +1,16 @@
 package uk.co.jacekk.bukkit.skylandsplus.generation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.server.v1_8_R2.*;
-
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 	
@@ -486,7 +485,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			}
 		}
 		
-		net.minecraft.server.v1_8_R2.World mcWorld = ((CraftWorld) world).getHandle();
+		net.minecraft.server.v1_8_R3.World mcWorld = ((CraftWorld) world).getHandle();
 
 		IChunkProvider cp = mcWorld.N();
 
