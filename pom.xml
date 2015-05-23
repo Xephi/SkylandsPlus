@@ -19,10 +19,9 @@
 	
 	<repositories>
 		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public/</url>
+			<id>sk89q-repo</id>
+			<url>http://maven.sk89q.com/repo/</url>
 		</repository>
-		
 		<repository>
 			<id>jacekk-repo</id>
 			<url>http://bukkit.jacekk.co.uk:8000/plugin/repository/everything/</url>
@@ -40,7 +39,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.8.4-R0.1-SNAPSHOT</version>
+			<version>1.8.5-R0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
