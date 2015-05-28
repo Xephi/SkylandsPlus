@@ -1,0 +1,15 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+/nbproject/private
+/dist
+/build
+/.idea/
+/target/
+
+!/lib/*.jar
+
