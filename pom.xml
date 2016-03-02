@@ -30,6 +30,7 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<version>1.9-SNAPSHOT</version>
+            <scope>compile</scope>
 		</dependency>
 	</dependencies>
 	
@@ -98,7 +99,6 @@
 						<manifestEntries>
 							<Name>${project.name}</Name>
 							<Version>${project.version}</Version>
-							<Build-Number>${BUILD_NUMBER}</Build-Number>
 						</manifestEntries>
 					</archive>
 				</configuration>
