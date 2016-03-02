@@ -15,7 +15,6 @@
         <directory>${basedir}/src/main/resources/</directory>
         <includes>
           <include>plugin.yml</include>
-          <include>README</include>
         </includes>
       </resource>
     </resources>
@@ -86,7 +85,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.8.6-R0.1-SNAPSHOT</version>
+      <version>1.9-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
