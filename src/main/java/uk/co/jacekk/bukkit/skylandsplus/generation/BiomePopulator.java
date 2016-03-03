@@ -11,43 +11,50 @@ import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
 
-public class BiomePopulator extends BlockPopulator {
-	
-	@Override
-	public void populate(World world, Random random, Chunk chunk){
-		//Biome biome = world.getBiome(chunk.getX() * 16, chunk.getZ() * 16);
+public class BiomePopulator extends BlockPopulator
+{
 
-		//TODO: Some biomes are not being decorated.
-		// Possibly solved by the approch below
+    @Override
+    public void populate(World world, Random random, Chunk chunk)
+    {
+        //Biome biome = world.getBiome(chunk.getX() * 16, chunk.getZ() * 16);
 
-		BiomeFixRandom biomefixrandom = new BiomeFixRandom(random);
+        //TODO: Some biomes are not being decorated.
+        // Possibly solved by the approch below
 
-		try{
+        BiomeFixRandom biomefixrandom = new BiomeFixRandom(random);
 
-			//ReflectionUtils.getFieldValue(BiomeBase.class, biome.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), biomefixrandom, new BlockPosition( chunk.getX() * 16, 0, chunk.getZ() * 16));
+        try
+        {
 
-			// Go directly to the chunk's BiomeBase class
-			// instead of converting it to a CraftBukkit enum and back
-			WorldServer worldserver = ((CraftWorld) world).getHandle();
-			BlockPosition p = new BlockPosition(chunk.getX() * 16, 0, chunk.getZ() * 16);
-			BiomeBase biomebase = worldserver.getBiome(p);
-			biomebase.a(worldserver, biomefixrandom, p);
+            //ReflectionUtils.getFieldValue(BiomeBase.class, biome.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), biomefixrandom, new BlockPosition( chunk.getX() * 16, 0, chunk.getZ() * 16));
 
-		//}catch (NoSuchFieldException e){
-		//	try{
-		//		ReflectionUtils.getFieldValue(BiomeBase.class, Biome.FOREST.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), biomefixrandom, new BlockPosition( chunk.getX() * 16, 0, chunk.getZ() * 16));
-		//	}catch (IllegalArgumentException le){
-		//		System.err.println(le.getMessage());
-		//	}catch (RuntimeException le){
-		//		// Decorator was already called on this chunk :/
-		//	}catch (NoSuchFieldException le){
-		//		// This won't happen.
-		//	}
-		}catch (IllegalArgumentException e){
-			System.err.println(e.getMessage());
-		}catch (RuntimeException e){
-			// Decorator was already called on this chunk :/
-		}
-	}
-	
+            // Go directly to the chunk's BiomeBase class
+            // instead of converting it to a CraftBukkit enum and back
+            WorldServer worldserver = ((CraftWorld) world).getHandle();
+            BlockPosition p = new BlockPosition(chunk.getX() * 16, 0, chunk.getZ() * 16);
+            BiomeBase biomebase = worldserver.getBiome(p);
+            biomebase.a(worldserver, biomefixrandom, p);
+
+            //}catch (NoSuchFieldException e){
+            //	try{
+            //		ReflectionUtils.getFieldValue(BiomeBase.class, Biome.FOREST.name(), BiomeBase.class, null).a(((CraftWorld) world).getHandle(), biomefixrandom, new BlockPosition( chunk.getX() * 16, 0, chunk.getZ() * 16));
+            //	}catch (IllegalArgumentException le){
+            //		System.err.println(le.getMessage());
+            //	}catch (RuntimeException le){
+            //		// Decorator was already called on this chunk :/
+            //	}catch (NoSuchFieldException le){
+            //		// This won't happen.
+            //	}
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        catch (RuntimeException e)
+        {
+            // Decorator was already called on this chunk :/
+        }
+    }
+
 }

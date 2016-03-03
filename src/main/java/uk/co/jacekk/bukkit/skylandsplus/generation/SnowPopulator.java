@@ -10,33 +10,40 @@ import org.bukkit.generator.BlockPopulator;
 
 import java.util.Random;
 
-public class SnowPopulator extends BlockPopulator {
-	
-	public void populate(World world, Random random, Chunk chunk){
-		int chunkX = chunk.getX() * 16;
-		int chunkZ = chunk.getZ() * 16;
-		
-		for (int x = 0; x < 16; ++x){
-			for (int z = 0; z < 16; ++z){
-				Biome biome = world.getBiome(chunkX + x, chunkZ + z);
+public class SnowPopulator extends BlockPopulator
+{
 
-				if (biome == Biome.ICE_FLATS || biome == Biome.ICE_MOUNTAINS ||
-						biome == Biome.TAIGA || biome == Biome.TAIGA_HILLS ||
-						biome == Biome.FROZEN_OCEAN || biome == Biome.FROZEN_RIVER){
-					int y = world.getHighestBlockYAt(chunkX + x, chunkZ + z);
+    public void populate(World world, Random random, Chunk chunk)
+    {
+        int chunkX = chunk.getX() * 16;
+        int chunkZ = chunk.getZ() * 16;
 
-					if (y > 5){
-						Block block = chunk.getBlock(x, y, z);
+        for (int x = 0; x < 16; ++x)
+        {
+            for (int z = 0; z < 16; ++z)
+            {
+                Biome biome = world.getBiome(chunkX + x, chunkZ + z);
 
-						Block down = block.getRelative(BlockFace.DOWN);
-						if ( !( down.isEmpty() || down.isLiquid() ||
-								down.getType() == Material.ICE ) ){
-							block.setType(Material.SNOW);
-						}
-					}
-				}
-			}
-		}
-	}
-	
+                if (biome == Biome.ICE_FLATS || biome == Biome.ICE_MOUNTAINS ||
+                        biome == Biome.TAIGA || biome == Biome.TAIGA_HILLS ||
+                        biome == Biome.FROZEN_OCEAN || biome == Biome.FROZEN_RIVER)
+                {
+                    int y = world.getHighestBlockYAt(chunkX + x, chunkZ + z);
+
+                    if (y > 5)
+                    {
+                        Block block = chunk.getBlock(x, y, z);
+
+                        Block down = block.getRelative(BlockFace.DOWN);
+                        if (!(down.isEmpty() || down.isLiquid() ||
+                                down.getType() == Material.ICE))
+                        {
+                            block.setType(Material.SNOW);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

@@ -1,37 +1,31 @@
 package uk.co.jacekk.bukkit.skylandsplus;
 
-import java.io.File;
-
 import org.bukkit.generator.ChunkGenerator;
-
-import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
+import org.bukkit.plugin.java.JavaPlugin;
 import uk.co.jacekk.bukkit.skylandsplus.listeners.MobSpawnListener;
 import uk.co.jacekk.bukkit.skylandsplus.listeners.PhysicsListener;
 
-public class SkylandsPlus extends BasePlugin {
-	
-	public void onEnable(){
-		super.onEnable(true);
-		
-		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
-		
-		if (this.config.getBoolean(Config.PREVENT_SAND_FALLING)){
-			this.pluginManager.registerEvents(new PhysicsListener(this), this);
-		}
-		
-		if (this.config.getBoolean(Config.RESTRICT_MOB_SPAWNING)){
-			this.pluginManager.registerEvents(new MobSpawnListener(this), this);
-		}
-	}
-	
-	@Override
-	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id){
-		if(id == null || id.isEmpty()){
-			id = "offset=0";
-		}
-		
-		return new uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator(id);
-	}
-	
+public class SkylandsPlus extends JavaPlugin
+{
+
+    public void onEnable()
+    {
+        if(this.getConfig().getBoolean("prevent-sand-falling", true))
+		    this.getServer().getPluginManager().registerEvents(new PhysicsListener(), this);
+
+        if(this.getConfig().getBoolean("restrict-mob-spawning"))
+            this.getServer().getPluginManager().registerEvents(new MobSpawnListener(), this);
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
+    {
+        if (id == null || id.isEmpty())
+        {
+            id = "offset=0";
+        }
+
+        return new uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator(id);
+    }
+
 }

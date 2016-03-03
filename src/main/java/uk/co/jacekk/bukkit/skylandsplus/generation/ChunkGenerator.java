@@ -686,7 +686,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator
                 for (int z = 0; z < 16; ++z)
                 {
                     // 1.9 mappings are screwy.
-                    chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.a(cs.a(x,y,z).getBlock())).byteValue();
+                    chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.a(cs.a(x, y, z).getBlock())).byteValue();
                     // 1.8 chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer)Block.REGISTRY.b(cs.a(x, y, z).getBlock())).byteValue();
                     //chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.b(blocks[(x * 16 + z) * 128 + y])).byteValue();
 
