@@ -10,6 +10,7 @@ public class SkylandsPlus extends JavaPlugin
 
     public void onEnable()
     {
+        this.saveDefaultConfig();
         if(this.getConfig().getBoolean("prevent-sand-falling", true))
 		    this.getServer().getPluginManager().registerEvents(new PhysicsListener(), this);
 
