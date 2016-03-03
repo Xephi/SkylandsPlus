@@ -17,13 +17,17 @@
 		<baseplugin.package>13</baseplugin.package>
 	</properties>
 
+    <repositories>
+        <repository>
+            <id>sinndev-repo-thirdparty</id>
+            <url>http://repo.sinndev.com/content/repositories/thirdparty</url>
+        </repository>
+    </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>uk.co.jacekk.bukkit</groupId>
-			<artifactId>baseplugin</artifactId>
-			<version>${baseplugin.version}</version>
-			<scope>system</scope>
-            <systemPath>${project.basedir}/lib/baseplugin-13.jar</systemPath>
+			<artifactId>baseplugi</artifactId>
+			<version>13</version>
 		</dependency>
 		
 		<dependency>
@@ -51,34 +55,27 @@
 		</resources>
 		
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.1</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<finalName>${project.name}</finalName>
-					<artifactSet>
-						<includes>
-							<include>uk.co.jacekk.bukkit:baseplugin</include>
-						</includes>
-					</artifactSet>
-					<relocations>
-						<relocation>
-							<pattern>uk.co.jacekk.bukkit.baseplugin</pattern>
-							<shadedPattern>uk.co.jacekk.bukkit.baseplugin.v${baseplugin.package}</shadedPattern>
-						</relocation>
-					</relocations>
-				</configuration>
-			</plugin>
-			
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <artifactSet>
+                        <excludes>
+                            <exclude>org.bukkit:*</exclude>
+                        </excludes>
+                    </artifactSet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -86,21 +83,6 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<addMavenDescriptor>false</addMavenDescriptor>
-						<manifestEntries>
-							<Name>${project.name}</Name>
-							<Version>${project.version}</Version>
-						</manifestEntries>
-					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
