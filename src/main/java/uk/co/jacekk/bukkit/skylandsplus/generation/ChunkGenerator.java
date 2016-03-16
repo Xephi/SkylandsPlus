@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.server.v1_7_R4.Block;
-import net.minecraft.server.v1_7_R4.Blocks;
-import net.minecraft.server.v1_7_R4.NoiseGeneratorOctaves;
-import net.minecraft.server.v1_7_R4.WorldGenCanyon;
-import net.minecraft.server.v1_7_R4.WorldGenCaves;
-import net.minecraft.server.v1_7_R4.WorldGenCavesHell;
-import net.minecraft.server.v1_7_R4.WorldGenLargeFeature;
-import net.minecraft.server.v1_7_R4.WorldGenMineshaft;
-import net.minecraft.server.v1_7_R4.WorldGenNether;
-import net.minecraft.server.v1_7_R4.WorldGenStronghold;
-import net.minecraft.server.v1_7_R4.WorldGenVillage;
-
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
+
+import net.minecraft.server.v1_9_R1.Block;
+import net.minecraft.server.v1_9_R1.Blocks;
+import net.minecraft.server.v1_9_R1.NoiseGeneratorOctaves;
+import net.minecraft.server.v1_9_R1.WorldGenCanyon;
+import net.minecraft.server.v1_9_R1.WorldGenCaves;
+import net.minecraft.server.v1_9_R1.WorldGenCavesHell;
+import net.minecraft.server.v1_9_R1.WorldGenLargeFeature;
+import net.minecraft.server.v1_9_R1.WorldGenMineshaft;
+import net.minecraft.server.v1_9_R1.WorldGenNether;
+import net.minecraft.server.v1_9_R1.WorldGenStronghold;
+import net.minecraft.server.v1_9_R1.WorldGenVillage;
 
 public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 	
@@ -296,7 +296,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			break;
 			
 			case THE_END:
-				blockType = Blocks.WHITESTONE;
+				blockType = Blocks.END_STONE;
 			break;
 			
 			default:
@@ -449,7 +449,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 					b1 = Blocks.NETHERRACK;
 					b2 = Blocks.NETHERRACK;
 				}else if (biome == Biome.MUSHROOM_ISLAND || biome == Biome.MUSHROOM_SHORE){
-					b1 = Blocks.MYCEL;
+					b1 = Blocks.MYCELIUM;
 					b2 = Blocks.DIRT;
 				}else{
 					b1 = Blocks.GRASS;
@@ -513,7 +513,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			}
 		}
 		
-		net.minecraft.server.v1_7_R4.World mcWorld = ((CraftWorld) world).getHandle();
+		net.minecraft.server.v1_9_R1.World mcWorld = ((CraftWorld) world).getHandle();
 		
 		Block[] blocks = new Block[65536];
 		
@@ -522,26 +522,26 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		this.shapeLand(world, chunkX, chunkZ, blocks);
 		
 		if (environment == Environment.NORMAL){
-			this.caveGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+			this.caveGen.a(mcWorld, chunkX, chunkZ, blocks);
 			
 			if (canyon == true){
-				this.canyonGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.canyonGen.a(mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (stronghold == true){
-				this.strongholdGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.strongholdGen.a(mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (mineshaft == true){
-				this.mineshaftGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.mineshaftGen.a(mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (village == true){
-				this.villageGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.villageGen.a(mcWorld, chunkX, chunkZ, blocks);
 			}
 			if (largefeature == true){
-				this.largefeatureGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.largefeatureGen.a(mcWorld, chunkX, chunkZ, blocks);
 			}
 		}else if (environment == Environment.NETHER){
-			this.caveGenNether.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
-			this.genNetherFort.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+			this.caveGenNether.a(mcWorld, chunkX, chunkZ, blocks);
+			this.genNetherFort.a(mcWorld, chunkX, chunkZ, blocks);
 		}
 		
 		this.decorateLand(chunkX, chunkZ, blocks, biomes);
@@ -561,7 +561,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		for (int x = 0; x < 16; ++x){
 			for (int y = 0 + cut_bottom; y < 128 - cut_top; ++y){
 				for (int z = 0; z < 16; ++z){
-					chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.b(blocks[(x * 16 + z) * 128 + y])).byteValue();
+					chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.a(blocks[(x * 16 + z) * 128 + y])).byteValue();
 					
 					if (bedrock == true && y == 0){
 						chunk[y - cut_bottom >> 4][((y - cut_bottom & 0xF) << 8) | (z << 4) | x] = (byte) Material.BEDROCK.getId();

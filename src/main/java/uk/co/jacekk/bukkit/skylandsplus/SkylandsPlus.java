@@ -17,11 +17,11 @@ public class SkylandsPlus extends BasePlugin {
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
 		if (this.config.getBoolean(Config.PREVENT_SAND_FALLING)) {
-			this.pluginManager.registerEvents(new PhysicsListener(this), this);
+			this.getServer().getPluginManager().registerEvents(new PhysicsListener(this), this);
 		}
 		
 		if (this.config.getBoolean(Config.RESTRICT_MOB_SPAWNING)) {
-			this.pluginManager.registerEvents(new MobSpawnListener(this), this);
+		    this.getServer().getPluginManager().registerEvents(new MobSpawnListener(this), this);
 		}
 	}
 	
